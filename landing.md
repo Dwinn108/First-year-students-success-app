@@ -45,12 +45,48 @@
       z-index: 999;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Profile Section */
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      margin-bottom: 15px;
+    }
+
+    .profile-section img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #c5e384;
+    }
+
+    .profile-info h6 {
+      margin: 0;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #f8f9fa;
+    }
+
+    .profile-info p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: #d0d0d0;
     }
 
     .sidebar h4 {
       text-align: center;
       margin-bottom: 20px;
       font-weight: 600;
+    }
+
+    .sidebar .menu {
+      flex-grow: 1;
     }
 
     .sidebar a {
@@ -70,6 +106,13 @@
     hr {
       margin: 20px;
       border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Logout at bottom */
+    .logout {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
     }
 
     /* Content */
@@ -99,19 +142,33 @@
 <body>
   <!-- Sidebar -->
   <div class="sidebar">
-    <h4>FYSSA</h4>
+    <div>
+      <!-- Profile Section -->
+      <div class="profile-section">
+        <img src="uploads/profile.jpg" alt="Profile Picture">
+        <div class="profile-info">
+          <h6>John Darwin F. Caragan</h6>
+          <p>john.caragan@email.com</p>
+        </div>
+      </div>
 
-    <a href="profile_page.html" class="active"><i class="bi bi-person-circle me-2"></i>Profile</a>
-    <a href="study tips.html"><i class="bi bi-lightbulb me-2"></i>Study Tips</a>
-    <a href="Calendar.html"><i class="bi bi-calendar-event me-2"></i>Calendar</a>
-    <a href="Reminder.html"><i class="bi bi-bell me-2"></i>Reminder</a>
-    <a href="Mentor.html"><i class="bi bi-mortarboard me-2"></i>Mentor</a>
-    <a href="Peer_group.html"><i class="bi bi-people me-2"></i>Peer Group</a>
+      <!-- Menu -->
+      <div class="menu">
+        <h4>FYSSA</h4>
+        <a href="profile.html" class="active"><i class="bi bi-person-circle me-2"></i>Profile</a>
+        <a href="study tips.html"><i class="bi bi-lightbulb me-2"></i>Study Tips</a>
+        <a href="reminders.html"><i class="bi bi-bell me-2"></i>Reminder</a>
+        <a href="Mentor.html"><i class="bi bi-mortarboard me-2"></i>Mentor</a>
 
-    <hr />
+        <hr />
+        <a href="#"><i class="bi bi-gear me-2"></i>Settings</a>
+      </div>
+    </div>
 
-    <a href="#"><i class="bi bi-gear me-2"></i>Settings</a>
-    <a href="Login.html"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+    <!-- Logout -->
+    <div class="logout">
+      <a href="Login.html"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+    </div>
   </div>
 
   <!-- Main Content -->
