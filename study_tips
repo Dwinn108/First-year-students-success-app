@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Wellness & Study Hub</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f5f9f4;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .back-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-btn:hover {
+      background-color: #5e813a;
+      color: #fff;
+    }
+
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+      background-color: #f5f9f4;
+      padding-top: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-tabs .nav-link {
+      color: #3c4d2f;
+      font-weight: 600;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .nav-tabs .nav-link.active {
+      background-color: #7ba950;
+      color: white;
+      border: none;
+    }
+
+    .tab-content {
+      background-color: #ffffff;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #355e2e;
+      font-weight: 700;
+    }
+
+    /* ✅ Mint green boxes with black text */
+    .tip-card, .wellness-card {
+      background-color: #98FF98;
+      color: #000;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .tip-card:hover, .wellness-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .wellness-card img {
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .posted-by {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #2b4520;
+      margin-top: 8px;
+    }
+
+    .tip-of-day {
+      background: linear-gradient(90deg, #94C973, #C5E384);
+      color: #1d2c0f;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px auto 40px;
+      text-align: center;
+      max-width: 700px;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 0;
+      background-color: #394E25;
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .row.g-4 > [class*='col-'] {
+      display: flex;
+    }
+
+    /* Floating modal with enlarge effect */
+    .modal-content {
+      background-color: #98FF98;
+      color: black;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+      transform: scale(0.85);
+      animation: popUp 0.4s ease forwards;
+    }
+
+    @keyframes popUp {
+      from {
+        transform: scale(0.85);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1.05);
+        opacity: 1;
+      }
+    }
+
+    .modal-backdrop.show {
+      backdrop-filter: blur(6px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container py-4">
+    <!-- Back Button -->
+    <div class="mb-3">
+      <a href="landing.html" class="btn back-btn">⬅ Back</a>
+    </div>
+
+    <!-- Header -->
+    <h1 class="text-center mb-3 text-success fw-bold">🌿 Student Wellness & Study Hub 🌿</h1>
+    <p class="text-center text-muted mb-4">Your space for mindfulness, motivation, and study success!</p>
+
+    <!-- Sticky Tabs -->
+    <div class="sticky-nav">
+      <ul class="nav nav-tabs justify-content-center mb-0" id="hubTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="study-tab" data-bs-toggle="tab" data-bs-target="#study" type="button" role="tab">
+            📘 Study Tips
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="wellness-tab" data-bs-toggle="tab" data-bs-target="#wellness" type="button" role="tab">
+            💚 Wellness Hub
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tab-content" id="hubTabsContent">
+      <!-- Study Tips Tab -->
+      <div class="tab-pane fade show active" id="study" role="tabpanel" aria-labelledby="study-tab">
+        <div class="tip-of-day">
+          <h5>💡 Tip of the Day</h5>
+          <p id="dailyTip" class="mt-2"></p>
+        </div>
+
+        <h2 class="section-title">Smart Study Strategies</h2>
+        <div class="row g-4" id="tipsContainer"></div>
+      </div>
+
+      <!-- Wellness Hub Tab -->
+      <div class="tab-pane fade" id="wellness" role="tabpanel" aria-labelledby="wellness-tab">
+        <h2 class="section-title">Wellness Hub by Instructors</h2>
+        <div class="row g-4">
+          <!-- Post 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card wellness-card p-3" data-title="5 Simple Ways to Relax After Class" data-content="Take time to breathe, stretch, or go for a walk. Taking care of your mind helps you perform better." data-img="uploads/relaxation_tips.jpg" data-author="Instructor Ana">
+              <img src="uploads/relaxation_tips.jpg" class="card-img-top mb-3" alt="Relaxation Image">
+              <h5 class="fw-bold">5 Simple Ways to Relax After Class</h5>
+              <p>Take time to breathe, stretch, or go for a walk.</p>
+              <p class="posted-by">👩‍🏫 Posted by Instructor Ana</p>
+            </div>
+          </div>
+
+          <!-- Post 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card wellness-card p-3" data-title="Healthy Eating for a Happier You" data-content="Balanced meals boost energy and focus. Don’t skip breakfast — it’s your fuel for learning!" data-img="uploads/healthy_food.jpg" data-author="Instructor Kim">
+              <img src="uploads/healthy_food.jpg" class="card-img-top mb-3" alt="Healthy Food">
+              <h5 class="fw-bold">Healthy Eating for a Happier You</h5>
+              <p>Balanced meals boost energy and focus.</p>
+              <p class="posted-by">👩‍🏫 Posted by Instructor Kim</p>
+            </div>
+          </div>
+
+          <!-- Post 3 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card wellness-card p-3" data-title="Self-Care Isn’t Selfish" data-content="Taking time for yourself recharges your emotional and mental health. Try journaling or meditating." data-img="uploads/selfcare.jpg" data-author="Instructor Reyes">
+              <img src="uploads/selfcare.jpg" class="card-img-top mb-3" alt="Self-Care">
+              <h5 class="fw-bold">Self-Care Isn’t Selfish</h5>
+              <p>Taking time for yourself recharges your emotional health.</p>
+              <p class="posted-by">👩‍🏫 Posted by Instructor Reyes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="infoModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content text-center">
+        <img id="modalImg" class="img-fluid rounded mb-3" alt="Image">
+        <h3 id="modalTitle" class="fw-bold mb-3"></h3>
+        <p id="modalContent" class="fs-5"></p>
+        <p id="modalAuthor" class="posted-by"></p>
+        <button type="button" class="btn btn-dark mt-3" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>© 2025 Student Wellness & Study Hub | Designed for First-Year Students</footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const tips = [
+      "Set clear, achievable goals for each study session — small wins build momentum.",
+      "Use a study planner to allocate time for each subject throughout the week.",
+      "Start your day with your hardest subject — your brain is freshest in the morning.",
+      "Avoid cramming. Spacing out your study time improves long-term memory.",
+      "Use the Pomodoro method: 25 minutes of focus, 5 minutes of rest — repeat!",
+      "Minimize distractions — silence your phone and close unused tabs.",
+      "Prioritize tasks: Focus on what’s most important, not what’s easiest.",
+      "Take breaks — resting your mind improves focus and retention.",
+      "Track your time — find out where you waste it, then adjust your habits.",
+      "Reward yourself after studying — it keeps you motivated for the next task."
+    ];
+
+    const authors = [
+      "Instructor Miguel",
+      "Instructor Cruz",
+      "Instructor Santos",
+      "Instructor Dela Peña",
+      "Instructor Tan",
+      "Instructor Javier",
+      "Instructor Bautista",
+      "Instructor Ramos",
+      "Instructor Villanueva",
+      "Instructor Mercado"
+    ];
+
+    // Tip of the day
+    document.getElementById("dailyTip").innerText =
+      tips[Math.floor(Math.random() * tips.length)];
+
+    // Generate study tip cards
+    const container = document.getElementById("tipsContainer");
+    tips.forEach((tip, i) => {
+      const author = authors[i % authors.length];
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+      col.innerHTML = `
+        <div class="card tip-card p-3" data-title="Study Tip #${i + 1}" data-content="${tip}" data-author="${author}">
+          <h5 class="fw-bold">Tip #${i + 1}</h5>
+          <p>${tip}</p>
+          <p class="posted-by">👨‍🏫 Posted by ${author}</p>
+        </div>`;
+      container.appendChild(col);
+    });
+
+    // Modal functionality
+    const modal = new bootstrap.Modal(document.getElementById('infoModal'));
+    document.addEventListener('click', e => {
+      const card = e.target.closest('.tip-card, .wellness-card');
+      if (!card) return;
+
+      const title = card.dataset.title;
+      const content = card.dataset.content;
+      const img = card.dataset.img;
+      const author = card.dataset.author;
+
+      document.getElementById('modalTitle').innerText = title || '';
+      document.getElementById('modalContent').innerText = content || '';
+      document.getElementById('modalAuthor').innerText = `👩‍🏫 Posted by ${author || 'Instructor'}`;
+
+      const modalImg = document.getElementById('modalImg');
+      if (img) {
+        modalImg.src = img;
+        modalImg.style.display = 'block';
+      } else {
+        modalImg.style.display = 'none';
+      }
+
+      modal.show();
+    });
+  </script>
+</body>
+</html>
